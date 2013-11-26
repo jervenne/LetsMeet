@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package com.androidhive.loginandregister;
+package com.mobidev;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;

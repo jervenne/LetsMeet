@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="hello">Hello World, LoginActivity!</string>
-    <string name="app_name">AndroidLoginAndRegistration</string>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string name="app_name">Let\'s Meet</string>
+    <string android:layout_height="wrap_content" android:id="@+id/string1" android:layout_width="wrap_content" name="action_settings">Settings</string>
 </resources>
