@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#555555"
+    android:orientation="vertical" >
+    
+    <Button
+        android:id="@+id/setDateButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Set Date"
+        android:textSize="20sp"
+        android:layout_marginTop="5dp" />
+ 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose the date(s) by clicking the Set Date button "
+        android:textColor="#808080"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="1/3"
+        android:gravity="right"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#808080" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="left"
+	        android:text="Date Set (MM-DD-YYYY): "
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:textColor="#ffffff" />
+ 
+    	<TextView
+	        android:id="@+id/tvDate"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text=""
+	        android:textColor="#ffffff"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+    
+
+    <DatePicker
+        android:id="@+id/dpResult"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/addDateButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+  		android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Add Date"
+        android:textSize="20sp" />
+    
+</LinearLayout>

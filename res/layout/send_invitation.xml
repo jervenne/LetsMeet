@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF" >
+    
+    <TextView
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:text="Send Invitation"
+	    android:background="#d3d3d3"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	    android:paddingLeft="13dp"
+	    android:textColor="#000000" />
+ 
+    <TextView
+	    android:id="@+id/scheduleEventHeading"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:text="Enter the email address to send the invitation to"
+	    android:textAppearance="?android:attr/textAppearanceSmall"
+	    android:paddingLeft="13dp"
+	    android:textColor="#808080" />
+ 
+    <TextView
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:text="Email address"
+	    android:textAppearance="?android:attr/textAppearanceMedium"
+	    android:paddingLeft="13dp"
+	    android:textColor="#800080" />
+
+    <EditText
+        android:id="@+id/emailAdd"
+        android:layout_width="fill_parent"
+        android:layout_height="145dip"
+        android:ems="10"
+        android:hint="Start typing to enter email recipients..."
+        android:inputType="textEmailAddress|textWebEmailAddress" />
+
+    <TextView
+        android:id="@+id/scheduleEventHeading"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="13dp"
+        android:text="Separate multiple email recipients by commas"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#808080" />
+    
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dip"
+        android:text="SEND AND FINISH" />
+
+</LinearLayout>
