@@ -15,6 +15,9 @@ public class Option {
 		this.timeslot = timeslot;
 	}
 
+	public Option() {
+	}
+
 	public int getOptionID() {
 		return optionID;
 	}

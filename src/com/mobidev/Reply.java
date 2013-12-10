@@ -13,6 +13,9 @@ public class Reply {
 		this.event = event;
 	}
 
+	public Reply() {
+	}
+
 	public User getUser() {
 		return user;
 	}

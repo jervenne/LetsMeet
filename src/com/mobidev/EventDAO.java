@@ -1,6 +1,5 @@
 package com.mobidev;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class EventDAO extends SQLiteOpenHelper {
 	// Logcat tag
-    private static final String LOG = EventDAO.class.getName();
+    //private static final String LOG = EventDAO.class.getName();
     
 	// All Static variables
 	// Database Version
@@ -132,6 +131,30 @@ public class EventDAO extends SQLiteOpenHelper {
         return user;
         
 	}
+	
+	// Getting single user
+	public User getUser(int id) {
+		
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_USERS + " WHERE id='"+id+"'";
+        User user = new User();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0){
+            user.setUserID(Integer.parseInt(cursor.getString(0)));
+            user.setEmail(cursor.getString(1));
+            System.out.println("ID=" + user.getUserID());
+            System.out.println("Email=" + user.getEmail());
+        }else{
+        	user = null;
+        }
+        cursor.close();
+        db.close();
+        // return user
+        return user;
+        
+	}
 
 	// Updating single user
 	public int updateUser(User user) {
@@ -222,6 +245,31 @@ public class EventDAO extends SQLiteOpenHelper {
 		return eventList;
 	}
 	
+	// Getting single event
+	public Event getEvent(int id) {
+		
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_EVENTS + " WHERE id='"+id+"'";
+        Event event = new Event();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0){
+        	event.setEventID(Integer.parseInt(cursor.getString(0)));
+			event.setEventName(cursor.getString(1));
+			event.setLocation(cursor.getString(2));
+			event.setDescription(cursor.getString(3));
+			
+        }else{
+        	event = null;
+        }
+        cursor.close();
+        db.close();
+        // return event
+        return event;
+        
+	}
+	
 	// ------------------------ "OPTIONS" table methods ----------------//
 	//add suggested timeslots of a event
 	public void addOptions(ArrayList<Option> timeslotList) {
@@ -241,6 +289,58 @@ public class EventDAO extends SQLiteOpenHelper {
 		db.close(); // Closing database connection
 	} 
 	
+	// Getting All Options of an Event
+	public List<Option> getOptionsOfAEvent(Event event) {
+		List<Option> optionList = new ArrayList<Option>();
+		// Select All Query
+		String selectQuery = "SELECT  * FROM " + TABLE_OPTIONS + " WHERE event_id='" +event.getEventID()+ "'";
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				Option option = new Option();
+				option.setOptionID(Integer.parseInt((cursor.getString(0))));
+				option.setEvent(event);
+				option.setTimeslot(cursor.getString(2));
+				// Adding options of a meeting to a list
+				optionList.add(option);
+			} while (cursor.moveToNext());
+		}else{
+			optionList = null;
+		}
+
+		// return event list
+		return optionList;
+	}
+	
+	// Getting single option
+	public Option getOption(int id) {
+		
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_OPTIONS + " WHERE id='"+id+"'";
+        Option option = new Option();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0){
+            option.setOptionID(Integer.parseInt(cursor.getString(0)));
+            //get event with id
+            Event event = getEvent(Integer.parseInt(cursor.getString(1)));
+            option.setEvent(event);
+            option.setTimeslot(cursor.getString(2));
+        }else{
+        	option = null;
+        }
+        cursor.close();
+        db.close();
+        // return user
+        return option;
+        
+	}
+	
 	// ------------------------ "REPLIES" table methods ----------------//
 	//add replies from respondent
 	public void addReply(ArrayList<Reply> replyList) {
@@ -259,4 +359,36 @@ public class EventDAO extends SQLiteOpenHelper {
 		db.insert(TABLE_REPLIES, null, values);
 		db.close(); // Closing database connection
 	} 
+	
+	// Getting All replies of an Event
+		public List<Reply> getRepliesOfAEvent(Event event) {
+			List<Reply> replyList = new ArrayList<Reply>();
+			// Select All Query
+			String selectQuery = "SELECT  * FROM " + TABLE_OPTIONS + " WHERE event_id='" +event.getEventID()+ "'";
+
+			SQLiteDatabase db = this.getWritableDatabase();
+			Cursor cursor = db.rawQuery(selectQuery, null);
+
+			// looping through all rows and adding to list
+			if (cursor.moveToFirst()) {
+				do {
+					Reply reply = new Reply();
+					reply.setEvent(event);
+					//find user with user ID
+					User user = getUser(Integer.parseInt(cursor.getString(0)));
+					reply.setUser(user);
+					//find option with option ID
+					Option option = getOption(Integer.parseInt(cursor.getString(1)));
+					reply.setOption(option);
+					
+					// Adding replies of an event to a list
+					replyList.add(reply);
+				} while (cursor.moveToNext());
+			}else{
+				replyList = null;
+			}
+
+			// return reply list
+			return replyList;
+		}
 }
