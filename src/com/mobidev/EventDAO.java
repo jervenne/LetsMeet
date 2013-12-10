@@ -132,30 +132,6 @@ public class EventDAO extends SQLiteOpenHelper {
         return user;
         
 	}
-	
-	// Getting All Users
-	public List<User> getAllUsers() {
-		List<User> userList = new ArrayList<User>();
-		// Select All Query
-		String selectQuery = "SELECT  * FROM " + TABLE_USERS;
-
-		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.rawQuery(selectQuery, null);
-
-		// looping through all rows and adding to list
-		if (cursor.moveToFirst()) {
-			do {
-				User user = new User();
-				user.setUserID((Integer.parseInt(cursor.getString(0))));
-				user.setEmail((cursor.getString(1)));
-				// Adding user to list
-				userList.add(user);
-			} while (cursor.moveToNext());
-		}
-
-		// return user list
-		return userList;
-	}
 
 	// Updating single user
 	public int updateUser(User user) {
@@ -216,6 +192,34 @@ public class EventDAO extends SQLiteOpenHelper {
 			//add event with their ID
 			addEvent(event, user);
 		}
+	}
+	
+	// Getting All Events of a user
+	public List<Event> getEventsOfAUser(User user) {
+		List<Event> eventList = new ArrayList<Event>();
+		// Select All Query
+		String selectQuery = "SELECT  * FROM " + TABLE_EVENTS + " WHERE user_id='" +user.getUserID()+ "'";
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				Event event = new Event();
+				event.setEventID(Integer.parseInt((cursor.getString(0))));
+				event.setEventName(cursor.getString(1));
+				event.setLocation(cursor.getString(2));
+				event.setDescription(cursor.getString(3));
+				// Adding events of a user to a list
+				eventList.add(event);
+			} while (cursor.moveToNext());
+		}else{
+			eventList = null;
+		}
+
+		// return event list
+		return eventList;
 	}
 	
 	// ------------------------ "OPTIONS" table methods ----------------//
