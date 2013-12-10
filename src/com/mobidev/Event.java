@@ -8,7 +8,6 @@ public class Event {
 	String eventName;
 	String location;
 	String description;
-	int owner;
 	ArrayList<User> respondents;
 	ArrayList<Option> options;
 	
@@ -16,35 +15,30 @@ public class Event {
 		
 	}
 	
-	public Event(int eventID, String eventName, String location,
-			String description, int owner, ArrayList<User> respondents) {
+	public Event(int eventID, String eventName, String location, String description, ArrayList<User> respondents) {
 		super();
 		this.eventID = eventID;
 		this.eventName = eventName;
 		this.location = location;
 		this.description = description;
-		this.owner = owner;
 		this.respondents = respondents;
 	}
 
-	public Event(int eventID, String eventName, int owner,
-			ArrayList<User> respondents) {
+	public Event(int eventID, String eventName, ArrayList<User> respondents) {
 		super();
 		this.eventID = eventID;
 		this.eventName = eventName;
-		this.owner = owner;
 		this.respondents = respondents;
 	}
 
 	public Event(int eventID, String eventName, String location,
-			String description, int owner, ArrayList<User> respondents,
+			String description, ArrayList<User> respondents,
 			ArrayList<Option> options) {
 		super();
 		this.eventID = eventID;
 		this.eventName = eventName;
 		this.location = location;
 		this.description = description;
-		this.owner = owner;
 		this.respondents = respondents;
 		this.options = options;
 	}
@@ -81,13 +75,6 @@ public class Event {
 		this.description = description;
 	}
 
-	public int getOwner() {
-		return owner;
-	}
-
-	public void setOwner(int owner) {
-		this.owner = owner;
-	}
 
 	public ArrayList<User> getRespondents() {
 		return respondents;

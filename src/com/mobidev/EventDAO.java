@@ -29,6 +29,7 @@ public class EventDAO extends SQLiteOpenHelper {
 	//Common column names
 	private static final String KEY_ID = "id";
 	private static final String KEY_EVENTID = "event_id";
+	private static final String KEY_USERID = "user_id";
 
 	// USER Columns names
 	private static final String KEY_EMAIL = "email";
@@ -37,13 +38,11 @@ public class EventDAO extends SQLiteOpenHelper {
 	private static final String KEY_EVENTNAME = "event_name";
 	private static final String KEY_LOCATION = "location";
 	private static final String KEY_DESCRIPTION = "description";
-	private static final String KEY_OWNERID = "owner_id";
 	
 	// OPTIONS Columns names
 	private static final String KEY_TIMESLOT = "timeslot";
 	
 	// REPLIES Columns names
-	private static final String KEY_USERID = "user_id";
 	private static final String KEY_OPTIONID = "option_id";
 
 
@@ -56,7 +55,7 @@ public class EventDAO extends SQLiteOpenHelper {
 	private static final String CREATE_TABLE_EVENTS = "CREATE TABLE "
 			+ TABLE_EVENTS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ KEY_EVENTNAME + " TEXT," + KEY_LOCATION + " TEXT,"
-			+ KEY_DESCRIPTION + " TEXT," + KEY_OWNERID + " INTEGER," + "FOREIGN KEY(" + KEY_OWNERID + ") REFERENCES "+ TABLE_USERS + "("+ KEY_ID +"))";
+			+ KEY_DESCRIPTION + " TEXT," + KEY_USERID + " INTEGER," + "FOREIGN KEY(" + KEY_USERID + ") REFERENCES "+ TABLE_USERS + "("+ KEY_ID +"))";
 	//OPTIONS table create statement
 	private static final String CREATE_TABLE_OPTIONS = "CREATE TABLE "
 			+ TABLE_OPTIONS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -110,12 +109,12 @@ public class EventDAO extends SQLiteOpenHelper {
 	}
 
 	// Getting single user
-	User getUser(int id) {
+	User getUser(String email) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		Cursor cursor = db.query(TABLE_USERS, new String[] { KEY_ID,
-				KEY_EMAIL}, KEY_ID + "=?",
-				new String[] { String.valueOf(id) }, null, null, null, null);
+		Cursor cursor = db.query(TABLE_USERS, new String[] {KEY_ID, KEY_EMAIL}, 
+                "email =' " + KEY_EMAIL + "'", null, null, null, null);
+		
 		if (cursor != null)
 			cursor.moveToFirst();
 
@@ -182,19 +181,34 @@ public class EventDAO extends SQLiteOpenHelper {
 	
 	// ------------------------ "EVENTS" table methods ----------------//
 	// Adding new event
-	public void addEvent(Event event) {
+	public void addEvent(Event event, User user) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_EMAIL, event.getEventName()); // event name
-		values.put(KEY_LOCATION, event.getLocation()); // event location
-		values.put(KEY_DESCRIPTION, event.getDescription()); // event desc
-		values.put(KEY_OWNERID, event.getOwner()); // event owner
+		if (event.getLocation() != null && !event.getLocation().isEmpty()){
+			values.put(KEY_LOCATION, event.getLocation()); // event location
+		}
+		if (event.getDescription() != null && !event.getDescription().isEmpty()){
+			values.put(KEY_DESCRIPTION, event.getDescription()); // event desc
+		}
+		values.put(KEY_USERID, user.getUserID()); // event owner
 
 		// Inserting Row
 		db.insert(TABLE_EVENTS, null, values);
 		db.close(); // Closing database connection
 	}
+	
+	//Add event to respondents
+	public void addEventRespondents(Event event, ArrayList<User> respondentList){
+		// for each user in the respondent list,
+		for(User user : respondentList){
+			//add event with their ID
+			addEvent(event, user);
+		}
+	}
+	
+	
 	// ------------------------ "OPTIONS" table methods ----------------//
 	// ------------------------ "REPLIES" table methods ----------------//
 }
