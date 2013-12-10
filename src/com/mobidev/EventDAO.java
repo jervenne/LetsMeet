@@ -9,9 +9,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class UserDAO extends SQLiteOpenHelper {
+public class EventDAO extends SQLiteOpenHelper {
 	// Logcat tag
-    private static final String LOG = UserDAO.class.getName();
+    private static final String LOG = EventDAO.class.getName();
     
 	// All Static variables
 	// Database Version
@@ -70,7 +70,7 @@ public class UserDAO extends SQLiteOpenHelper {
 			+ "FOREIGN KEY(" + KEY_OPTIONID + ") REFERENCES "+ TABLE_OPTIONS +"("+ KEY_ID + "),"
 			+ "FOREIGN KEY(" + KEY_EVENTID + ") REFERENCES "+ TABLE_EVENTS +"("+ KEY_ID + ")";	
 	
-	public UserDAO(Context context) {
+	public EventDAO(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 	
@@ -98,7 +98,7 @@ public class UserDAO extends SQLiteOpenHelper {
 	// ------------------------ "USER" table methods ----------------//
 
 	// Adding new User
-	void addUser(User user) {
+	public void addUser(User user) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -181,7 +181,20 @@ public class UserDAO extends SQLiteOpenHelper {
 	}
 	
 	// ------------------------ "EVENTS" table methods ----------------//
-	
+	// Adding new event
+	public void addEvent(Event event) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_EMAIL, event.getEventName()); // event name
+		values.put(KEY_LOCATION, event.getLocation()); // event location
+		values.put(KEY_DESCRIPTION, event.getDescription()); // event desc
+		values.put(KEY_OWNERID, event.getOwner()); // event owner
+
+		// Inserting Row
+		db.insert(TABLE_EVENTS, null, values);
+		db.close(); // Closing database connection
+	}
 	// ------------------------ "OPTIONS" table methods ----------------//
 	// ------------------------ "REPLIES" table methods ----------------//
 }
