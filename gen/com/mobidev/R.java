@@ -20,26 +20,26 @@ public final class R {
         public static final int title=0x7f020006;
     }
     public static final class id {
-        public static final int TextView01=0x7f06000d;
-        public static final int TextView02=0x7f06000f;
-        public static final int TextView03=0x7f060014;
-        public static final int TextView04=0x7f060011;
+        public static final int TextView01=0x7f06000f;
+        public static final int TextView02=0x7f060010;
+        public static final int TextView03=0x7f060012;
+        public static final int TextView04=0x7f06001e;
         public static final int action_settings=0x7f06001f;
-        public static final int addDateTimeButton=0x7f060016;
+        public static final int addDateTimeButton=0x7f060014;
         public static final int btnSet=0x7f060003;
         public static final int datePicker=0x7f060000;
-        public static final int description=0x7f060012;
-        public static final int emailAdd=0x7f060013;
+        public static final int description=0x7f060013;
+        public static final int emailAdd=0x7f06001a;
         public static final int endTimePicker=0x7f060002;
         public static final int eventList=0x7f060005;
         public static final int eventListLabel=0x7f060004;
         public static final int eventName=0x7f060006;
-        public static final int location=0x7f060010;
-        public static final int nextButton=0x7f06001a;
+        public static final int location=0x7f060011;
+        public static final int nextButton=0x7f060018;
         public static final int notebook=0x7f06001c;
         public static final int saveButton=0x7f06000c;
-        public static final int scheduleEventHeading=0x7f06000e;
-        public static final int selectDateBtn=0x7f060015;
+        public static final int scheduleEventHeading=0x7f060019;
+        public static final int selectDateBtn=0x7f06000e;
         public static final int sendButton=0x7f06001b;
         public static final int startButton=0x7f06001d;
         public static final int startTimePicker=0x7f060001;
@@ -48,10 +48,10 @@ public final class R {
         public static final int tableRow3=0x7f060009;
         public static final int tableRow4=0x7f06000a;
         public static final int tableRow5=0x7f06000b;
-        public static final int textDate=0x7f060017;
-        public static final int textEndTime=0x7f060019;
-        public static final int textStartTime=0x7f060018;
-        public static final int textView1=0x7f06001e;
+        public static final int textDate=0x7f060015;
+        public static final int textEndTime=0x7f060017;
+        public static final int textStartTime=0x7f060016;
+        public static final int textView1=0x7f06000d;
     }
     public static final class layout {
         public static final int date_time_picker_frag=0x7f030000;

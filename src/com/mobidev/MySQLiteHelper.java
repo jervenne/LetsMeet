@@ -19,7 +19,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_EVENTNAME = "eventname";
 	public static final String COLUMN_LOCATION = "location";
 	public static final String COLUMN_DESCRIPTION = "description";
-	public static final String COLUMN_EMAIL = "email";
 	
 	private static final String DATABASE_NAME = "events.db";
 	private static final int DATABASE_VERSION = 1;
@@ -29,7 +28,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			+ TABLE_EVENTS + "(" + COLUMN_ID
 			+ " integer primary key autoincrement, " + COLUMN_EVENTNAME
 			+ " text not null, " + COLUMN_LOCATION + " text not null, "
-			+ COLUMN_DESCRIPTION + " text, " + COLUMN_EMAIL + " text not null);";
+			+ COLUMN_DESCRIPTION + " text);";
 
 	public MySQLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -61,8 +60,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		cv.put("eventname", newEvent.getEventName());
 		cv.put("location", newEvent.getLocation());
 		cv.put("description", newEvent.getDescription());
-		cv.put("email", newEvent.getEmail());
-		
+				
 		// insert values
 		long success = db.insert("events", null, cv);
 		Log.d("add event", success + "");
@@ -106,11 +104,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	
 	private Event cursorToEvent(Cursor cursor) {
 		Event event = new Event();
-		event.setId(cursor.getLong(0));
+		event.setEventID(cursor.getInt(0));
 		event.setEventName(cursor.getString(1));
 		event.setLocation(cursor.getString(2));
 		event.setDescription(cursor.getString(3));
-		event.setEmail(cursor.getString(4));
 		return event;
 	}
 }

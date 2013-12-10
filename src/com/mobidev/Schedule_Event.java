@@ -33,7 +33,7 @@ public class Schedule_Event extends Fragment implements ActionBar.TabListener {
 	EditText eventName;
 	EditText location;
 	EditText description;
-	EditText email;
+	//EditText email;
 	Button scheduleBtn;
 	
 	@Override
@@ -45,7 +45,7 @@ public class Schedule_Event extends Fragment implements ActionBar.TabListener {
 		eventName = (EditText) getActivity().findViewById(R.id.eventName);
 		location = (EditText) getActivity().findViewById(R.id.location);
 		description = (EditText) getActivity().findViewById(R.id.description);
-		email = (EditText) getActivity().findViewById(R.id.emailAdd);
+		//email = (EditText) getActivity().findViewById(R.id.emailAdd);
 		scheduleBtn = (Button) getActivity().findViewById(R.id.selectDateBtn);
 		
 		eventDB = new MySQLiteHelper(getActivity());
@@ -59,7 +59,7 @@ public class Schedule_Event extends Fragment implements ActionBar.TabListener {
 				newEvent.setEventName(eventName.getText().toString());
 				newEvent.setLocation(location.getText().toString());
 				newEvent.setDescription(description.getText().toString());
-				newEvent.setEmail(email.getText().toString());
+				//newEvent.setEmail(email.getText().toString());
 				
 				long success = eventDB.addEvent(newEvent);
 				
@@ -84,7 +84,7 @@ public class Schedule_Event extends Fragment implements ActionBar.TabListener {
     		writer.write(eventName.getText().toString() + eol);
     		writer.write(location.getText().toString() + eol);
     		writer.write(description.getText().toString() + eol);
-    		writer.write(email.getText().toString() + eol);
+    		//writer.write(email.getText().toString() + eol);
     	} catch (Exception e) {
     		e.printStackTrace();
     	} finally {
@@ -107,7 +107,7 @@ public class Schedule_Event extends Fragment implements ActionBar.TabListener {
     	    eventName.setText(input.readLine());
     	    location.setText(input.readLine());
     	    description.setText(input.readLine());
-    	    email.setText(input.readLine());
+    	    //email.setText(input.readLine());
     	} catch (Exception e) {
     		e.printStackTrace();
     	} finally {
