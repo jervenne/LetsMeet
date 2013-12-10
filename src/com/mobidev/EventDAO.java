@@ -51,7 +51,7 @@ public class EventDAO extends SQLiteOpenHelper {
 	//USER table create statement
 	private static final String CREATE_TABLE_USERS = "CREATE TABLE "
 			+ TABLE_USERS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_EMAIL
-			+ " DATETIME" + ")";
+			+ " TEXT" + ")";
 	//EVENT table create statement
 	private static final String CREATE_TABLE_EVENTS = "CREATE TABLE "
 			+ TABLE_EVENTS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -61,8 +61,8 @@ public class EventDAO extends SQLiteOpenHelper {
 	private static final String CREATE_TABLE_OPTIONS = "CREATE TABLE "
 			+ TABLE_OPTIONS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ KEY_EVENTID + " INTEGER,"
-			+ "FOREIGN KEY(" + KEY_EVENTID + ") REFERENCES "+ TABLE_EVENTS +"("+ KEY_ID + ")," 
-			+ KEY_TIMESLOT + " TEXT" + ")";
+			+ KEY_TIMESLOT + " TEXT,"
+			+ "FOREIGN KEY(" + KEY_EVENTID + ") REFERENCES "+ TABLE_EVENTS + "("+ KEY_ID +"))";
 	//REPLIES table create statement
 	private static final String CREATE_TABLE_REPLIES = "CREATE TABLE " + TABLE_REPLIES + "(" 
 			+ KEY_USERID + " INTEGER PRIMARY KEY," + KEY_OPTIONID + " INTEGER PRIMARY KEY," + KEY_EVENTID + " INTEGER PRIMARY KEY" 
