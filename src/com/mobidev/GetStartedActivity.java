@@ -15,11 +15,12 @@ import android.widget.Toast;
 
 public class GetStartedActivity extends Activity{
 	
-	String emailET = "";
+	String emailStr = "";
 	EventDAO eventDAO;
 	String email = "";
-	List<User> userList;
 	boolean hasUser;
+	EditText emailAddET;
+	Button startBtn;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -29,34 +30,32 @@ public class GetStartedActivity extends Activity{
         
         eventDAO = new EventDAO(this);
         
-       Button startBtn = (Button) findViewById(R.id.startButton);
-       EditText emailAddET = (EditText) findViewById(R.id.emailAdd);
-       emailET = emailAddET.getText().toString().trim();
+       startBtn = (Button) findViewById(R.id.startButton);
+       emailAddET = (EditText) findViewById(R.id.emailAdd);
         
         // Listening to Start Button
        startBtn.setOnClickListener(new View.OnClickListener() {
     	   public void onClick(View v) {
     		   
+    		   emailStr = emailAddET.getText().toString().trim();
+    		   Log.d("emailEditText", emailStr);
     		   hasUser = false;
-    		   Log.d("button", "aaaaaaa");
-    		   userList = eventDAO.getAllUsers();
-    		   Log.d("button", "bbbbbbb");
+    		   Log.d("eventDAO", "going to eventDAO");
+    		   User user = eventDAO.getUser(emailStr);
+    		   Log.d("eventDAO", "exiting eventDAO");
     		   
-    		   if (userList.size() > 0){
-    			   for(User u: userList) {
-        			   if (u.getEmail().equals(emailET)) {
-        				   hasUser = true;
-        				   Log.d("user", emailET);
-        				   Toast.makeText(GetStartedActivity.this, "Welcome back!", Toast.LENGTH_LONG).show();
-        			   }
-        		   }
-    		   }
-    		   
-    		   if (hasUser == false) {
-    			   User user = new User();
-    			   user.setEmail(emailET);
-    			   eventDAO.addUser(user);
+    		   if (user != null) {
+    			   Log.d("if", "entering if statement");
+				   hasUser = true;			   
+				   Toast.makeText(GetStartedActivity.this, "Welcome back, " + emailStr, Toast.LENGTH_LONG).show();
+    		   } else {
+
+    			   Log.d("if", "entering if statement2");
+    			   User u = new User();
+    			   u.setEmail(emailStr);
+    			   eventDAO.addUser(u);
     			   Toast.makeText(GetStartedActivity.this, "A user account with your email address has been created!", Toast.LENGTH_LONG).show();
+    		   
     		   }
     		   
     	    	Log.i("clicks","You clicked Get Started button");

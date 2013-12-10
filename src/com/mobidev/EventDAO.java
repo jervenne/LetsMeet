@@ -19,7 +19,7 @@ public class EventDAO extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
 
 	// Database Name
-	private static final String DATABASE_NAME = "meetingManager";
+	private static final String DATABASE_NAME = "meetingManager.db";
 
 	// User table name
 	private static final String TABLE_USERS = "users";
