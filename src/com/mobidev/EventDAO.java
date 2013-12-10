@@ -65,10 +65,10 @@ public class EventDAO extends SQLiteOpenHelper {
 			+ "FOREIGN KEY(" + KEY_EVENTID + ") REFERENCES "+ TABLE_EVENTS + "("+ KEY_ID +"))";
 	//REPLIES table create statement
 	private static final String CREATE_TABLE_REPLIES = "CREATE TABLE " + TABLE_REPLIES + "(" 
-			+ KEY_USERID + " INTEGER PRIMARY KEY," + KEY_OPTIONID + " INTEGER PRIMARY KEY," + KEY_EVENTID + " INTEGER PRIMARY KEY" 
+			+ KEY_USERID + " INTEGER," + KEY_OPTIONID + " INTEGER," + KEY_EVENTID + " INTEGER, " 
 			+ "FOREIGN KEY(" + KEY_USERID + ") REFERENCES "+ TABLE_USERS +"("+ KEY_ID + "),"
 			+ "FOREIGN KEY(" + KEY_OPTIONID + ") REFERENCES "+ TABLE_OPTIONS +"("+ KEY_ID + "),"
-			+ "FOREIGN KEY(" + KEY_EVENTID + ") REFERENCES "+ TABLE_EVENTS +"("+ KEY_ID + ")";	
+			+ "FOREIGN KEY(" + KEY_EVENTID + ") REFERENCES "+ TABLE_EVENTS +"("+ KEY_ID + "))";	
 	
 	public EventDAO(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
