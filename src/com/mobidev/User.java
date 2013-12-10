@@ -10,6 +10,9 @@ public class User {
 		this.email = email;
 	}
 
+	public User(){
+		
+	}
 	public int getUserID() {
 		return userID;
 	}
