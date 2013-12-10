@@ -12,18 +12,6 @@
         android:adjustViewBounds="true"
         android:src="@drawable/notebook" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/notebook"
-        android:background="@android:color/transparent"
-        android:gravity="center"
-        android:text="Efficient way to coordinate meeting schedules"
-        android:textColor="#ffffff"
-        android:textSize="16sp"
-        android:textStyle="italic" />
-
     <Button
         android:id="@+id/startButton"
         android:layout_width="fill_parent"
@@ -40,5 +28,18 @@
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="43dp"
         android:src="@drawable/title" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/notebook"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:text="Efficient way to coordinate meeting schedules"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:textStyle="italic" />
 
 </RelativeLayout>

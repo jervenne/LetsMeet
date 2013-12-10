@@ -14,13 +14,11 @@
         </activity>
         
         <!--  Entry for Activity.class -->
-        <activity android:name="com.mobidev.SummaryOfPollsActivity"
-        		  android:label="Let's Meet">
-        </activity>
         <activity android:name="com.mobidev.ScheduleEventActivity"></activity>
-        <activity android:name="com.mobidev.SelectDateActivity"></activity>
-        <activity android:name="com.mobidev.SelectTimeActivity"></activity>
         <activity android:name="com.mobidev.SendInvitationActivity"></activity>
+        <activity android:name="com.mobidev.SelectDateTimeActivity"></activity>
+        <activity android:name="com.mobidev.PollActivity"></activity>
+        <activity android:name="com.mobidev.Event_Main"></activity>
 
     </application>
 </manifest>

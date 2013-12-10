@@ -21,7 +21,7 @@ public class SendInvitationActivity extends Activity {
        selectDateBtn.setOnClickListener(new View.OnClickListener() {
     	   public void onClick(View v) {
     	    	Log.i("clicks","You clicked Send Invitation button");
-    	        Intent i = new Intent(SendInvitationActivity.this, SummaryOfPollsActivity.class);
+    	        Intent i = new Intent(SendInvitationActivity.this, PollActivity.class);
     	        startActivity(i);
     	    }
        });

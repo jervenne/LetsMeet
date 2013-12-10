@@ -23,7 +23,8 @@ public class GetStartedActivity extends Activity{
        startBtn.setOnClickListener(new View.OnClickListener() {
     	   public void onClick(View v) {
     	    	Log.i("clicks","You clicked Get Started button");
-    	        Intent i = new Intent(GetStartedActivity.this, ScheduleEventActivity.class);
+    	        Intent i = new Intent(GetStartedActivity.this, Event_Main.class);
+    	        //Intent i = new Intent(GetStartedActivity.this, ScheduleEventActivity.class);
     	        startActivity(i);
     	    }
        });

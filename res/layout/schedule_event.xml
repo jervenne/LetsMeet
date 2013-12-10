@@ -9,29 +9,11 @@
   		android:layout_height="wrap_content" 
   		android:background="#ffffff">
   		
-  		<!-- 
-  		<LinearLayout android:id="@+id/header"
-  				android:layout_width="fill_parent"
-  				android:layout_height="wrap_content"
-  				android:background="@layout/header_gradient"
-  				android:paddingTop="5dip"
-  				android:paddingBottom="5dip">
-  				
-  				<ImageView android:src="@drawable/heading"
-  							android:layout_width="wrap_content"
-  							android:layout_height="wrap_content"
-  							android:layout_marginLeft="10dip"/>
-  				
-  		</LinearLayout>
-  		-->
-		
 		<!--  Schedule an event heading -->
   		<TextView
-  		    android:id="@+id/scheduleEventHeading"
   		    android:layout_width="fill_parent"
   		    android:layout_height="wrap_content"
   		    android:layout_alignParentLeft="true"
-  		    android:layout_below="@+id/header"
   		    android:text="Schedule an event"
   		    android:background="#d3d3d3"
   		    android:textAppearance="?android:attr/textAppearanceLarge"
@@ -50,7 +32,6 @@
   		    android:textAppearance="?android:attr/textAppearanceMedium"
   		    android:paddingLeft="13dp"
   		    android:textColor="#800080" />
-  			
 
   		<EditText
   		    android:id="@+id/eventName"
@@ -60,7 +41,8 @@
   		    android:layout_alignParentRight="true"
   		    android:layout_below="@+id/TextView01"
   		    android:ems="10"
-  		    android:hint="Event name" />
+  		    android:hint="Event name"
+  		    android:textColor="#404040" />
 
   		<TextView
   		    android:id="@+id/TextView02"
@@ -82,7 +64,8 @@
   		    android:layout_alignParentRight="true"
   		    android:layout_below="@+id/TextView02"
   		    android:ems="10"
-  		    android:hint="Location" />
+  		    android:hint="Location"
+  		    android:textColor="#404040" />
 
   		<TextView
   		    android:id="@+id/TextView04"
@@ -105,7 +88,8 @@
   		    android:layout_below="@+id/TextView04"
   		    android:ems="10"
   		    android:hint="Email address"
-  		    android:inputType="textEmailAddress|textWebEmailAddress" />
+  		    android:inputType="textEmailAddress|textWebEmailAddress"
+  		    android:textColor="#404040" />
 
   		<TextView
   		    android:id="@+id/TextView03"
@@ -127,14 +111,15 @@
   		    android:layout_alignParentRight="true"
   		    android:layout_below="@+id/TextView03"
   		    android:ems="10"
-  		    android:hint="Description" />
+  		    android:hint="Description"
+  		    android:textColor="#404040" />
 
   		<Button
   		    android:id="@+id/selectDateBtn"
   		    android:layout_width="fill_parent"
   		    android:layout_height="wrap_content"
   		    android:layout_alignParentBottom="true"
-  		    android:text="Select date" />
+  		    android:text="SELECT DATE" />
 
   </RelativeLayout>
 </ScrollView>
