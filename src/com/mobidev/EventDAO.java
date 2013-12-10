@@ -110,15 +110,18 @@ public class EventDAO extends SQLiteOpenHelper {
 	}
 
 	// Getting single user
-	User getUser(String email) {
+	public User getUser(String email) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor cursor = db.query(TABLE_USERS, new String[] {KEY_ID, KEY_EMAIL}, 
                 "email =' " + KEY_EMAIL + "'", null, null, null, null);
-		if (cursor != null)
-			cursor.moveToFirst();
+		User user = null;
+		if( cursor != null && cursor.moveToFirst() ){
+			user = new User(Integer.parseInt(cursor.getString(0)), cursor.getString(1));
+		}
 
-		User user = new User(Integer.parseInt(cursor.getString(0)), cursor.getString(1));
+		cursor.close();
+
 		// return user
 		return user;
 	}
