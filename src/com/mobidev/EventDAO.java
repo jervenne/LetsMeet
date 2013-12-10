@@ -1,5 +1,6 @@
 package com.mobidev;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class EventDAO extends SQLiteOpenHelper {
 			+ TABLE_OPTIONS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ KEY_EVENTID + " INTEGER,"
 			+ "FOREIGN KEY(" + KEY_EVENTID + ") REFERENCES "+ TABLE_EVENTS +"("+ KEY_ID + ")," 
-			+ KEY_TIMESLOT + " DATETIME" + ")";
+			+ KEY_TIMESLOT + " TEXT" + ")";
 	//REPLIES table create statement
 	private static final String CREATE_TABLE_REPLIES = "CREATE TABLE " + TABLE_REPLIES + "(" 
 			+ KEY_USERID + " INTEGER PRIMARY KEY," + KEY_OPTIONID + " INTEGER PRIMARY KEY," + KEY_EVENTID + " INTEGER PRIMARY KEY" 
@@ -114,7 +115,6 @@ public class EventDAO extends SQLiteOpenHelper {
 
 		Cursor cursor = db.query(TABLE_USERS, new String[] {KEY_ID, KEY_EMAIL}, 
                 "email =' " + KEY_EMAIL + "'", null, null, null, null);
-		
 		if (cursor != null)
 			cursor.moveToFirst();
 
@@ -208,7 +208,41 @@ public class EventDAO extends SQLiteOpenHelper {
 		}
 	}
 	
-	
 	// ------------------------ "OPTIONS" table methods ----------------//
+	//add suggested timeslots of a event
+	public void addOptions(ArrayList<Option> timeslotList) {
+		//to use, format the timeslot to "YYYY-MM-DD HH:MM" format first
+		
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		//for each timeslot in the timeslotList, add to db
+		for (Option timeslot : timeslotList){
+			values.put(KEY_EVENTID, timeslot.getEvent().getEventID()); // event id
+			values.put(KEY_TIMESLOT, timeslot.getTimeslot()); // timeslot
+		}
+		
+		// Inserting Row
+		db.insert(TABLE_OPTIONS, null, values);
+		db.close(); // Closing database connection
+	} 
+	
 	// ------------------------ "REPLIES" table methods ----------------//
+	//add replies from respondent
+	public void addReply(ArrayList<Reply> replyList) {
+		
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		//for each reply in the replyList, add to db
+		for (Reply reply : replyList){
+			values.put(KEY_USERID, reply.getUser().getUserID());
+			values.put(KEY_OPTIONID, reply.getOption().getOptionID()); 
+			values.put(KEY_EVENTID, reply.getEvent().getEventID()); 
+		}
+		
+		// Inserting Row
+		db.insert(TABLE_REPLIES, null, values);
+		db.close(); // Closing database connection
+	} 
 }

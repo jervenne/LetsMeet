@@ -2,19 +2,17 @@ package com.mobidev;
 
 import com.mobidev.Event;
 
-import java.sql.Date;
-
 public class Option {
 
 	int optionID;
 	Event event;
-	Date datetime;
+	String timeslot;
 	
-	public Option(int optionID, Event event, Date datetime) {
+	public Option(int optionID, Event event, String timeslot) {
 		super();
 		this.optionID = optionID;
 		this.event = event;
-		this.datetime = datetime;
+		this.timeslot = timeslot;
 	}
 
 	public int getOptionID() {
@@ -33,12 +31,12 @@ public class Option {
 		this.event = event;
 	}
 
-	public Date getDatetime() {
-		return datetime;
+	public String getTimeslot() {
+		return timeslot;
 	}
 
-	public void setDatetime(Date datetime) {
-		this.datetime = datetime;
+	public void setTimeslot(String timeslot) {
+		this.timeslot = timeslot;
 	}
 		
 }
