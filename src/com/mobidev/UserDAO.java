@@ -10,6 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class UserDAO extends SQLiteOpenHelper {
+	// Logcat tag
+    private static final String LOG = UserDAO.class.getName();
+    
 	// All Static variables
 	// Database Version
 	private static final int DATABASE_VERSION = 1;
@@ -19,36 +22,80 @@ public class UserDAO extends SQLiteOpenHelper {
 
 	// User table name
 	private static final String TABLE_USERS = "users";
+	private static final String TABLE_EVENTS = "events";
+	private static final String TABLE_OPTIONS = "options";
+	private static final String TABLE_REPLIES = "replies";
 
-	// User Table Columns names
-	private static final String KEY_USERID = "userid";
+	//Common column names
+	private static final String KEY_ID = "id";
+	private static final String KEY_EVENTID = "event_id";
+
+	// USER Columns names
 	private static final String KEY_EMAIL = "email";
+	
+	// EVENT Columns names
+	private static final String KEY_EVENTNAME = "event_name";
+	private static final String KEY_LOCATION = "location";
+	private static final String KEY_DESCRIPTION = "description";
+	private static final String KEY_OWNERID = "owner_id";
+	
+	// OPTIONS Columns names
+	private static final String KEY_TIMESLOT = "timeslot";
+	
+	// REPLIES Columns names
+	private static final String KEY_USERID = "user_id";
+	private static final String KEY_OPTIONID = "option_id";
 
+
+	// Creating Tables
+	//USER table create statement
+	private static final String CREATE_TABLE_USERS = "CREATE TABLE "
+			+ TABLE_USERS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_EMAIL
+			+ " DATETIME" + ")";
+	//EVENT table create statement
+	private static final String CREATE_TABLE_EVENTS = "CREATE TABLE "
+			+ TABLE_EVENTS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ KEY_EVENTNAME + " TEXT," + KEY_LOCATION + " TEXT,"
+			+ KEY_DESCRIPTION + " TEXT," + KEY_OWNERID + " INTEGER," + "FOREIGN KEY(" + KEY_OWNERID + ") REFERENCES "+ TABLE_USERS + "("+ KEY_ID +"))";
+	//OPTIONS table create statement
+	private static final String CREATE_TABLE_OPTIONS = "CREATE TABLE "
+			+ TABLE_OPTIONS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ KEY_EVENTID + " INTEGER,"
+			+ "FOREIGN KEY(" + KEY_EVENTID + ") REFERENCES "+ TABLE_EVENTS +"("+ KEY_ID + ")," 
+			+ KEY_TIMESLOT + " DATETIME" + ")";
+	//REPLIES table create statement
+	private static final String CREATE_TABLE_REPLIES = "CREATE TABLE " + TABLE_REPLIES + "(" 
+			+ KEY_USERID + " INTEGER PRIMARY KEY," + KEY_OPTIONID + " INTEGER PRIMARY KEY," + KEY_EVENTID + " INTEGER PRIMARY KEY" 
+			+ "FOREIGN KEY(" + KEY_USERID + ") REFERENCES "+ TABLE_USERS +"("+ KEY_ID + "),"
+			+ "FOREIGN KEY(" + KEY_OPTIONID + ") REFERENCES "+ TABLE_OPTIONS +"("+ KEY_ID + "),"
+			+ "FOREIGN KEY(" + KEY_EVENTID + ") REFERENCES "+ TABLE_EVENTS +"("+ KEY_ID + ")";	
+	
 	public UserDAO(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
-
-	// Creating Tables
+	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
-				+ KEY_USERID + " INTEGER PRIMARY KEY," + KEY_EMAIL + " TEXT" + ")";
-		db.execSQL(CREATE_CONTACTS_TABLE);
+		// creating required tables
+		db.execSQL(CREATE_TABLE_USERS);
+		db.execSQL(CREATE_TABLE_EVENTS);
+		db.execSQL(CREATE_TABLE_OPTIONS);
+		db.execSQL(CREATE_TABLE_REPLIES);
 	}
 
-	// Upgrading database
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// Drop older table if existed
+		// on upgrade drop older tables
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_OPTIONS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPLIES);
 
-		// Create tables again
+		// create new tables
 		onCreate(db);
 	}
 
-	/**
-	 * All CRUD(Create, Read, Update, Delete) Operations
-	 */
+	// ------------------------ "USER" table methods ----------------//
 
 	// Adding new User
 	void addUser(User user) {
@@ -66,8 +113,8 @@ public class UserDAO extends SQLiteOpenHelper {
 	User getUser(int id) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		Cursor cursor = db.query(TABLE_USERS, new String[] { KEY_USERID,
-				KEY_EMAIL}, KEY_USERID + "=?",
+		Cursor cursor = db.query(TABLE_USERS, new String[] { KEY_ID,
+				KEY_EMAIL}, KEY_ID + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
@@ -109,14 +156,14 @@ public class UserDAO extends SQLiteOpenHelper {
 		values.put(KEY_EMAIL, user.getEmail());
 
 		// updating row
-		return db.update(TABLE_USERS, values, KEY_USERID + " = ?",
+		return db.update(TABLE_USERS, values, KEY_ID + " = ?",
 				new String[] { String.valueOf(user.getUserID()) });
 	}
 
 	// Deleting single user
 	public void deleteUser(User user) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_USERS, KEY_USERID + " = ?",
+		db.delete(TABLE_USERS, KEY_ID + " = ?",
 				new String[] { String.valueOf(user.getUserID()) });
 		db.close();
 	}
@@ -132,4 +179,9 @@ public class UserDAO extends SQLiteOpenHelper {
 		// return count
 		return cursor.getCount();
 	}
+	
+	// ------------------------ "EVENTS" table methods ----------------//
+	
+	// ------------------------ "OPTIONS" table methods ----------------//
+	// ------------------------ "REPLIES" table methods ----------------//
 }
