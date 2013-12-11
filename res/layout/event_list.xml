@@ -11,32 +11,40 @@
         android:layout_height="wrap_content"
         android:background="#ffffff" >
     
-        <TextView 
+         <TextView 
 	        android:id="@+id/eventListLabel"
 	        android:layout_width="fill_parent"
-		    android:layout_height="wrap_content" 
-		    android:layout_marginTop="10dp"
+	            android:layout_height="wrap_content" 
+	            android:layout_marginTop="10dp"
 	        android:layout_marginLeft="15dp"
 	        android:layout_marginRight="15dp"
-	        android:text=""
+	        android:text="Scheduled Events"
 	        android:textAppearance="?android:attr/textAppearanceLarge"
-	        android:layout_alignParentLeft="true"
 	        android:textColor="#800080"/>
+         
         
         <ImageButton
-	        android:id="@+id/addImageButton"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentRight="true"
-	        android:src="@android:drawable/ic_menu_add" />
+                android:id="@+id/addImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@android:drawable/ic_menu_add" />
     </RelativeLayout>
 
-    <ListView 
-        android:id="@+id/eventList"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content" 
-	    android:layout_marginTop="10dp"
+    <!--<ListView 
+        android:id="@+id/List"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp">
-    </ListView>
+    </ListView>-->
+    
+    <ListView
+        android:id="@+id/List"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="#b5b5b5"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/list_selector" />
 </LinearLayout>
