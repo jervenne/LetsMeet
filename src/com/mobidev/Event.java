@@ -15,6 +15,14 @@ public class Event {
 		
 	}
 	
+	public Event(int eventID, String eventName, String location, String description) {
+		super();
+		this.eventID = eventID;
+		this.eventName = eventName;
+		this.location = location;
+		this.description = description;
+	}
+	
 	public Event(int eventID, String eventName, String location, String description, ArrayList<User> respondents) {
 		super();
 		this.eventID = eventID;

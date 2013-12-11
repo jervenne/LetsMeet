@@ -18,6 +18,8 @@ public class ScheduleEventActivity extends Activity{
 	String email, location, description, eventName;
 	EditText eventNameET, locationET, descriptionET;
 	Button selectDateBtn;
+	EventDAO eventDAO;
+	int eventID;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -25,8 +27,11 @@ public class ScheduleEventActivity extends Activity{
        // Set View to schedule_event.xml
        setContentView(R.layout.schedule_event);
        
+       eventDAO = new EventDAO(this);
+       
        Intent i = getIntent();
        email = i.getStringExtra("emailAdd");
+       Log.i("intentEmail", email);
        
        selectDateBtn = (Button) findViewById(R.id.selectDateBtn);
        eventNameET = (EditText) findViewById(R.id.eventName);
@@ -46,9 +51,14 @@ public class ScheduleEventActivity extends Activity{
     			   
     		   } else {
     			   
+    			   eventID = eventDAO.getLatestEventID() + 1;
+    			   Event e = new Event(eventID, eventName, location, description);
+    			   eventDAO.addEvent(e, eventDAO.getUser(email));
+    			   
     			   Log.i("clicks","You clicked Select Date button");
         	       Intent i = new Intent(ScheduleEventActivity.this, SelectDateTimeActivity.class);
         	       i.putExtra("emailAdd", email);
+        	       i.putExtra("eventID", eventID);
         	       
         	       if (location.length() > 0) {
         	    	   i.putExtra("location", location);

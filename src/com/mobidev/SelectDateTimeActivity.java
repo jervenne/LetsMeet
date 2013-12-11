@@ -1,5 +1,7 @@
 package com.mobidev;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,13 +21,18 @@ public class SelectDateTimeActivity extends Activity {
 	DatePicker datep;
 	Integer startHour, startMinute, endHour, endMinute, month, day, year;
 	TextView startTime, endTime, date;
-	String email, startTimeStr, endTimeStr, dateStr;
+	String email, timeslotStr;
+	EventDAO eventDAO;
+	int eventID;
+	ArrayList<Option> timeslotList;
 	
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.select_date_time);
 			
+			eventDAO = new EventDAO(this);
+		    
 			addDateTimeButton = (Button) findViewById(R.id.addDateTimeButton);
 			nextButton = (Button) findViewById(R.id.nextButton);
 			startTime = (TextView) findViewById(R.id.textStartTime);
@@ -34,7 +41,8 @@ public class SelectDateTimeActivity extends Activity {
 			
 			Intent i = getIntent();
 		    email = i.getStringExtra("emailAdd");
-			
+			eventID = i.getIntExtra("eventID", 0);
+		    
 			addDateTimeButton.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
@@ -62,15 +70,20 @@ public class SelectDateTimeActivity extends Activity {
 							endHour = endtimep.getCurrentHour();
 							endMinute = endtimep.getCurrentMinute();
 							
-							Log.i("dateStr", dateStr);
-							dateStr = String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year);
-							date.setText("The date is " + dateStr);
+							timeslotStr = String.valueOf(day) + "/" + String.valueOf(month) + "/" + 
+									String.valueOf(year) + " " + String.valueOf(startHour) + ":" + 
+									String.valueOf(startMinute) + " - " + String.valueOf(endHour) + ":" + 
+									String.valueOf(endMinute);
 							
-							startTimeStr = String.valueOf(startHour) + ":" + String.valueOf(startMinute);
-							startTime.setText("Start Time is " +  startTimeStr);
+							Log.i("timeslot", timeslotStr);
 							
-							endTimeStr = String.valueOf(endHour) + ":" + String.valueOf(endMinute);
-							endTime.setText("End Time is " + endTimeStr);
+							date.setText("The timeslot is " + timeslotStr);
+							
+							timeslotList = new ArrayList<Option>();
+							Option option = new Option();
+			    			option.setEvent(eventDAO.getEvent(eventID));
+			    			option.setTimeslot(timeslotStr);
+							timeslotList.add(option);
 							
 							picker.dismiss();
 						}
@@ -83,20 +96,20 @@ public class SelectDateTimeActivity extends Activity {
 			nextButton.setOnClickListener(new View.OnClickListener() {
 	    	   public void onClick(View v) {
 	    		   
-	    		   //if(dateStr != null && startTimeStr != null && endTimeStr != null) {
-	    			   //if (dateStr.length() > 0 && startTimeStr.length() > 0 && endTimeStr.length() > 0){
-		    			   Log.i("clicks","You clicked Send Invitation button");
-			    	       Intent i = new Intent(SelectDateTimeActivity.this, SendInvitationActivity.class);
-			    	       i.putExtra("emailAdd", email);
-			    	       startActivity(i);
-		    		/*	   
-		    		   } 
-	    			   
+	    		   if (timeslotStr != null && timeslotStr.length() > 0) {
+	    			   eventDAO.addOptions(timeslotList);
+    		   
+    		   		   Log.i("clicks","You clicked Send Invitation button");
+		    	       Intent i = new Intent(SelectDateTimeActivity.this, SendInvitationActivity.class);
+		    	       i.putExtra("emailAdd", email);
+		    	       i.putExtra("eventID", eventID);
+		    	       startActivity(i);
+		    	   	   		    		   
 	    		   } else {
 	    			   Toast.makeText(SelectDateTimeActivity.this, "You did not select the date/time", Toast.LENGTH_LONG).show();
 	    			   return;
 	    		   }
-		    		*/
+		    		
 	    	    }
 		    });
 			

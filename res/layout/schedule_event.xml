@@ -89,6 +89,7 @@
 	       android:layout_marginTop="15dp"
 	       android:ems="10"
 	       android:hint="Description"
+	       android:scrollHorizontally="false"
 	       android:textColor="#404040" />
 
 </RelativeLayout>

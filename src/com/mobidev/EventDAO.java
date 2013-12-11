@@ -22,12 +22,12 @@ public class EventDAO extends SQLiteOpenHelper {
 
 	// User table name
 	private static final String TABLE_USERS = "users";
-	private static final String TABLE_EVENTS = "events";
+	public static final String TABLE_EVENTS = "events";
 	private static final String TABLE_OPTIONS = "options";
 	private static final String TABLE_REPLIES = "replies";
 
 	//Common column names
-	private static final String KEY_ID = "id";
+	public static final String KEY_ID = "id";
 	private static final String KEY_EVENTID = "event_id";
 	private static final String KEY_USERID = "user_id";
 
@@ -35,9 +35,9 @@ public class EventDAO extends SQLiteOpenHelper {
 	private static final String KEY_EMAIL = "email";
 	
 	// EVENT Columns names
-	private static final String KEY_EVENTNAME = "event_name";
-	private static final String KEY_LOCATION = "location";
-	private static final String KEY_DESCRIPTION = "description";
+	public static final String KEY_EVENTNAME = "event_name";
+	public static final String KEY_LOCATION = "location";
+	public static final String KEY_DESCRIPTION = "description";
 	
 	// OPTIONS Columns names
 	private static final String KEY_TIMESLOT = "timeslot";
@@ -53,7 +53,7 @@ public class EventDAO extends SQLiteOpenHelper {
 			+ " TEXT" + ")";
 	//EVENT table create statement
 	private static final String CREATE_TABLE_EVENTS = "CREATE TABLE "
-			+ TABLE_EVENTS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ TABLE_EVENTS + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
 			+ KEY_EVENTNAME + " TEXT," + KEY_LOCATION + " TEXT,"
 			+ KEY_DESCRIPTION + " TEXT," + KEY_USERID + " INTEGER," + "FOREIGN KEY(" + KEY_USERID + ") REFERENCES "+ TABLE_USERS + "("+ KEY_ID +"))";
 	//OPTIONS table create statement
@@ -194,7 +194,7 @@ public class EventDAO extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(KEY_EMAIL, event.getEventName()); // event name
+		values.put(KEY_EVENTNAME, event.getEventName()); // event name
 		if (event.getLocation() != null && !event.getLocation().isEmpty()){
 			values.put(KEY_LOCATION, event.getLocation()); // event location
 		}
@@ -202,7 +202,8 @@ public class EventDAO extends SQLiteOpenHelper {
 			values.put(KEY_DESCRIPTION, event.getDescription()); // event desc
 		}
 		values.put(KEY_USERID, user.getUserID()); // event owner
-
+		//System.out.println("EventName=" + event.getEventName());
+        //System.out.println("Email=" + user.getEmail());
 		// Inserting Row
 		db.insert(TABLE_EVENTS, null, values);
 		db.close(); // Closing database connection
@@ -270,10 +271,26 @@ public class EventDAO extends SQLiteOpenHelper {
         
 	}
 	
+	public int getLatestEventID(){
+		int lastId=0;
+		SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT ID FROM " + TABLE_EVENTS + " ORDER BY id DESC LIMIT 1";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0){
+        	lastId = Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        db.close();
+        
+        return lastId;
+	}
+	
 	// ------------------------ "OPTIONS" table methods ----------------//
 	//add suggested timeslots of a event
 	public void addOptions(ArrayList<Option> timeslotList) {
-		//to use, format the timeslot to "YYYY-MM-DD HH:MM" format first
+		//to use, format the timeslot to "DD/MM/YYYY HH:MM - HH:MM" format first
 		
 		SQLiteDatabase db = this.getWritableDatabase();
 

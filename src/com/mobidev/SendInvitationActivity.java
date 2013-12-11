@@ -1,5 +1,7 @@
 package com.mobidev;
 
+import java.util.ArrayList;
+
 import com.mobidev.R;
 import android.app.Activity;
 import android.content.Intent;
@@ -14,9 +16,12 @@ public class SendInvitationActivity extends Activity {
 	EditText emailAddET;
 	Button sendBtn;
 	EventDAO eventDAO;
+	Event event;
 	String[] emailArray;
 	String email, emailAddresses;
 	boolean isValid;
+	int eventID;
+	ArrayList<User> respondents;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,8 +31,10 @@ public class SendInvitationActivity extends Activity {
        
        Intent i = getIntent();
 	   email = i.getStringExtra("emailAdd");
-       
+	   eventID = i.getIntExtra("eventID", 0);
+	   
        eventDAO = new EventDAO(this);
+       event = eventDAO.getEvent(eventID);
        
        sendBtn = (Button) findViewById(R.id.sendButton);
        emailAddET = (EditText) findViewById(R.id.emailAdd);
@@ -36,7 +43,8 @@ public class SendInvitationActivity extends Activity {
        sendBtn.setOnClickListener(new View.OnClickListener() {
     	   public void onClick(View v) {
     		   emailAddresses = emailAddET.getText().toString().trim();
-
+    		   respondents = new ArrayList<User>();
+    		   
     		   //when there is no input on email edit text
     		   if (emailAddresses.length() == 0){
     			   Log.i("emailAdd.length()", "emailAddresses.length() == 0");
@@ -48,25 +56,28 @@ public class SendInvitationActivity extends Activity {
     			   Log.i("emailAdd.contains comma", "email got comma");
     			   emailArray = emailAddresses.split(",");
     			   isValid = false;
-    			   
+
     			   for(String emailStr:emailArray){
     				   Log.i("emailArray", emailStr);
     				   
     				   //check if each string s is a valid email add
     				   if(isEmailValid(emailStr)) {
-    					   
+    					   isValid = true;
     					   Log.i("isEmailValid", "isEmailValid1");
-    					   User a = eventDAO.getUser(emailStr.trim());
+    					   User u = eventDAO.getUser(emailStr.trim());
         				   
         				   //check if user exists already by email add
-        				   if (a == null) {
+        				   if (u == null) {
         					   Log.i("user", "user is null");
-        					   User b = new User();
-                			   b.setEmail(emailStr);
-                			   eventDAO.addUser(b);
+        					   u = new User();
+                			   u.setEmail(emailStr);
+                			   eventDAO.addUser(u);
         					   Log.i("user", "user is added to dao");
         				   }
-        				   isValid = true;
+        				   
+        				   respondents.add(u);
+        				   event.setRespondents(respondents);
+        				   
     				   } else {
     					   isValid = false;
     					   Toast.makeText(SendInvitationActivity.this, "You did not enter a valid email address", Toast.LENGTH_LONG).show();
@@ -76,7 +87,7 @@ public class SendInvitationActivity extends Activity {
     			   }
     			   
     			   if (isValid){
-    				   Log.i("clicks","You clicked Send Invitation button");
+    				   Log.i("clicks","You clicked Send and Finish button");
     	    	       Intent i = new Intent(SendInvitationActivity.this, PollActivity.class);
     	    	       i.putExtra("emailAdd", email);
     	    	       startActivity(i);
@@ -94,13 +105,16 @@ public class SendInvitationActivity extends Activity {
     				   //check if user exists already by email add
     				   if (user == null) {
     					   Log.i("user", "user is null");
-    					   User u = new User();
-            			   u.setEmail(emailAddresses);
-            			   eventDAO.addUser(u);
+    					   user = new User();
+            			   user.setEmail(emailAddresses);
+            			   eventDAO.addUser(user);
             			   Log.i("user", "user is added to dao");
     				   }
     				   
-    				   Log.i("clicks","You clicked Send Invitation button");
+    				   respondents.add(user);
+    				   event.setRespondents(respondents);
+    				   
+    				   Log.i("clicks","You clicked Send and Finish button");
     	    	       Intent i = new Intent(SendInvitationActivity.this, PollActivity.class);
     	    	       i.putExtra("emailAdd", email);
     	    	       startActivity(i);
