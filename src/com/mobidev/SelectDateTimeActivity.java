@@ -43,6 +43,8 @@ public class SelectDateTimeActivity extends Activity {
 		    email = i.getStringExtra("emailAdd");
 			eventID = i.getIntExtra("eventID", 0);
 		    
+			timeslotList = new ArrayList<Option>();
+			
 			addDateTimeButton.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
@@ -74,16 +76,20 @@ public class SelectDateTimeActivity extends Activity {
 									String.valueOf(year) + " " + String.valueOf(startHour) + ":" + 
 									String.valueOf(startMinute) + " - " + String.valueOf(endHour) + ":" + 
 									String.valueOf(endMinute);
-							
-							Log.i("timeslot", timeslotStr);
-							
-							date.setText("The timeslot is " + timeslotStr);
-							
-							timeslotList = new ArrayList<Option>();
+
 							Option option = new Option();
 			    			option.setEvent(eventDAO.getEvent(eventID));
 			    			option.setTimeslot(timeslotStr);
 							timeslotList.add(option);
+							
+							StringBuilder builder = new StringBuilder();
+							builder.append("Time slots chosen are:" + "\n");
+							for (Option o : timeslotList) {
+								String slot = o.getTimeslot();
+								builder.append(slot + "\n");
+							}
+							
+							date.setText(builder.toString());
 							
 							picker.dismiss();
 						}
