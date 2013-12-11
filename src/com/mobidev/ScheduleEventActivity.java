@@ -14,14 +14,9 @@ import android.widget.Toast;
 
 public class ScheduleEventActivity extends Activity{
 	
-	//public static final String PREFS_NAME = "MySavedValues";
-	String email;
-	String location;
-	String description;
-	String eventName;
-	EditText eventNameET;
-	EditText locationET;
-	EditText descriptionET;
+	public static final String PREFS_NAME = "MySavedValues";
+	String email, location, description, eventName;
+	EditText eventNameET, locationET, descriptionET;
 	Button selectDateBtn;
 	
 	@Override
@@ -70,12 +65,11 @@ public class ScheduleEventActivity extends Activity{
        });
     }		
     
-	/*
+	
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		
 		
 		SharedPreferences savedValues = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 		SharedPreferences.Editor editor = savedValues.edit();
@@ -84,5 +78,5 @@ public class ScheduleEventActivity extends Activity{
 		editor.commit();
 		
 	}
-	*/
+	
 }

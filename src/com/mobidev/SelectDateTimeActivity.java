@@ -7,21 +7,19 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 
 public class SelectDateTimeActivity extends Activity {
 	Dialog picker;
-	Button addDateTimeButton;
-	Button btnSet;
-	Button nextButton;
-	TimePicker starttimep;
-	TimePicker endtimep;
+	Button addDateTimeButton, btnSet, nextButton;
+	TimePicker starttimep, endtimep;
 	DatePicker datep;
 	Integer startHour, startMinute, endHour, endMinute, month, day, year;
 	TextView startTime, endTime, date;
-	String email;
+	String email, startTimeStr, endTimeStr, dateStr;
 	
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +62,15 @@ public class SelectDateTimeActivity extends Activity {
 							endHour = endtimep.getCurrentHour();
 							endMinute = endtimep.getCurrentMinute();
 							
-							date.setText("The date is " + day + "/" + month + "/" + year);
-							startTime.setText("Start Time is " + startHour + ":" + startMinute);
-							endTime.setText("End Time is " + endHour + ":" + endMinute);
+							Log.i("dateStr", dateStr);
+							dateStr = String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year);
+							date.setText("The date is " + dateStr);
+							
+							startTimeStr = String.valueOf(startHour) + ":" + String.valueOf(startMinute);
+							startTime.setText("Start Time is " +  startTimeStr);
+							
+							endTimeStr = String.valueOf(endHour) + ":" + String.valueOf(endMinute);
+							endTime.setText("End Time is " + endTimeStr);
 							
 							picker.dismiss();
 						}
@@ -78,10 +82,21 @@ public class SelectDateTimeActivity extends Activity {
 			
 			nextButton.setOnClickListener(new View.OnClickListener() {
 	    	   public void onClick(View v) {
-	    	    	Log.i("clicks","You clicked Send Invitation button");
-	    	        Intent i = new Intent(SelectDateTimeActivity.this, SendInvitationActivity.class);
-	    	        i.putExtra("emailAdd", email);
-	    	        startActivity(i);
+	    		   
+	    		   //if(dateStr != null && startTimeStr != null && endTimeStr != null) {
+	    			   //if (dateStr.length() > 0 && startTimeStr.length() > 0 && endTimeStr.length() > 0){
+		    			   Log.i("clicks","You clicked Send Invitation button");
+			    	       Intent i = new Intent(SelectDateTimeActivity.this, SendInvitationActivity.class);
+			    	       i.putExtra("emailAdd", email);
+			    	       startActivity(i);
+		    		/*	   
+		    		   } 
+	    			   
+	    		   } else {
+	    			   Toast.makeText(SelectDateTimeActivity.this, "You did not select the date/time", Toast.LENGTH_LONG).show();
+	    			   return;
+	    		   }
+		    		*/
 	    	    }
 		    });
 			

@@ -16,8 +16,7 @@ import android.widget.Toast;
 
 public class GetStartedActivity extends Activity{
 	
-	String emailStr;
-	String email;
+	String email, emailStr;
 	boolean hasUser;
 	EventDAO eventDAO;
 	EditText emailAddET;

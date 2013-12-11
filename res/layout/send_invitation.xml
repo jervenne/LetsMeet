@@ -38,7 +38,8 @@
         android:layout_height="145dip"
         android:ems="10"
         android:hint="Start typing to enter email recipients..."
-        android:inputType="textEmailAddress|textWebEmailAddress" />
+        android:inputType="textEmailAddress|textWebEmailAddress"
+        android:textColor="#404040" />
 
     <TextView
         android:id="@+id/scheduleEventHeading"

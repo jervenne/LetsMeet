@@ -12,11 +12,11 @@ import android.widget.Toast;
 
 public class SendInvitationActivity extends Activity {
 	EditText emailAddET;
-	Button selectDateBtn;
+	Button sendBtn;
 	EventDAO eventDAO;
 	String[] emailArray;
-	String emailAddresses;
-	String email;
+	String email, emailAddresses;
+	boolean isValid;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -29,58 +29,75 @@ public class SendInvitationActivity extends Activity {
        
        eventDAO = new EventDAO(this);
        
-       selectDateBtn = (Button) findViewById(R.id.sendButton);
+       sendBtn = (Button) findViewById(R.id.sendButton);
        emailAddET = (EditText) findViewById(R.id.emailAdd);
        
        // Listening to Send Button
-       selectDateBtn.setOnClickListener(new View.OnClickListener() {
+       sendBtn.setOnClickListener(new View.OnClickListener() {
     	   public void onClick(View v) {
     		   emailAddresses = emailAddET.getText().toString().trim();
 
     		   //when there is no input on email edit text
     		   if (emailAddresses.length() == 0){
+    			   Log.i("emailAdd.length()", "emailAddresses.length() == 0");
     			   Toast.makeText(SendInvitationActivity.this, "You did not enter a valid email address", Toast.LENGTH_LONG).show();
     			   return;
     		   
     		   //when there is more than 1 email add (hence got presence of comma)
     		   } else if (emailAddresses.contains(",")) {
+    			   Log.i("emailAdd.contains comma", "email got comma");
     			   emailArray = emailAddresses.split(",");
+    			   isValid = false;
     			   
     			   for(String emailStr:emailArray){
+    				   Log.i("emailArray", emailStr);
+    				   
     				   //check if each string s is a valid email add
     				   if(isEmailValid(emailStr)) {
+    					   
+    					   Log.i("isEmailValid", "isEmailValid1");
     					   User a = eventDAO.getUser(emailStr.trim());
         				   
         				   //check if user exists already by email add
         				   if (a == null) {
+        					   Log.i("user", "user is null");
         					   User b = new User();
                 			   b.setEmail(emailStr);
                 			   eventDAO.addUser(b);
+        					   Log.i("user", "user is added to dao");
         				   }
-        				   
-        				   Log.i("clicks","You clicked Send Invitation button");
-        	    	       Intent i = new Intent(SendInvitationActivity.this, PollActivity.class);
-        	    	       i.putExtra("emailAdd", email);
-        	    	       startActivity(i);
-    					   
+        				   isValid = true;
     				   } else {
+    					   isValid = false;
     					   Toast.makeText(SendInvitationActivity.this, "You did not enter a valid email address", Toast.LENGTH_LONG).show();
-            			   return;
+            			   break;
+    					   //return;
     				   }
+    			   }
+    			   
+    			   if (isValid){
+    				   Log.i("clicks","You clicked Send Invitation button");
+    	    	       Intent i = new Intent(SendInvitationActivity.this, PollActivity.class);
+    	    	       i.putExtra("emailAdd", email);
+    	    	       startActivity(i);
     			   }
     		   
     		   //when there is only 1 email add (no presence of comma)
     		   } else {
+    			   Log.i("emailAdd nv contain comma", "only got 1 email add");
     			   
     			   //check if email add is valid
     			   if (isEmailValid(emailAddresses)) {
+    				   Log.i("isEmailValid2", "isEmailValid2");
     				   User user = eventDAO.getUser(emailAddresses.trim());
     				   
     				   //check if user exists already by email add
     				   if (user == null) {
+    					   Log.i("user", "user is null");
     					   User u = new User();
             			   u.setEmail(emailAddresses);
             			   eventDAO.addUser(u);
+            			   Log.i("user", "user is added to dao");
     				   }
     				   
     				   Log.i("clicks","You clicked Send Invitation button");

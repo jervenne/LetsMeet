@@ -11,7 +11,7 @@ import android.widget.TextView;
 public class PollActivity extends Activity {
 	
 	public static final String PREFS_NAME = "MySavedValues";
-	String eventName = "";
+	String eventName;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
