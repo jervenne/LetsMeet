@@ -117,6 +117,7 @@ public class SendInvitationActivity extends Activity {
     				   Log.i("clicks","You clicked Send and Finish button");
     	    	       Intent i = new Intent(SendInvitationActivity.this, PollActivity.class);
     	    	       i.putExtra("emailAdd", email);
+    	    	       i.putExtra("eventID", eventID);
     	    	       startActivity(i);
     				   
     			   } else {
