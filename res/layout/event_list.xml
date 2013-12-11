@@ -2,20 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#ffffff" >
-    
-	<TextView 
-        android:id="@+id/eventListLabel"
+    android:background="#ffffff"
+    android:measureWithLargestChild="true"
+    android:orientation="vertical" >
+
+    <RelativeLayout
         android:layout_width="fill_parent"
-	    android:layout_height="wrap_content" 
-	    android:layout_marginTop="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:text="Scheduled Events"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#800080"/>
+        android:layout_height="wrap_content"
+        android:background="#ffffff" >
     
+        <TextView 
+	        android:id="@+id/eventListLabel"
+	        android:layout_width="fill_parent"
+		    android:layout_height="wrap_content" 
+		    android:layout_marginTop="10dp"
+	        android:layout_marginLeft="15dp"
+	        android:layout_marginRight="15dp"
+	        android:text=""
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:layout_alignParentLeft="true"
+	        android:textColor="#800080"/>
+        
+        <ImageButton
+	        android:id="@+id/addImageButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:src="@android:drawable/ic_menu_add" />
+    </RelativeLayout>
+
     <ListView 
         android:id="@+id/eventList"
 	    android:layout_width="fill_parent"

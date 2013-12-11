@@ -28,8 +28,8 @@
 	       android:layout_height="wrap_content"
 	       android:layout_alignParentLeft="true"
 	       android:layout_below="@+id/textView1"
-	       android:layout_marginTop="17dp"
-	       android:paddingLeft="13dp"
+	       android:layout_marginTop="15dp"
+	       android:paddingLeft="10dp"
 	       android:text="Event name"
 	       android:textAppearance="?android:attr/textAppearanceMedium"
 	       android:textColor="#800080" />
@@ -40,7 +40,7 @@
 	       android:layout_height="wrap_content"
 	       android:layout_alignParentLeft="true"
 	       android:layout_below="@+id/TextView01"
-	       android:layout_marginTop="16dp"
+	       android:layout_marginTop="15dp"
 	       android:ems="10"
 	       android:hint="Event name"
 	       android:textColor="#404040" />
@@ -51,8 +51,8 @@
 	       android:layout_height="wrap_content"
 	       android:layout_alignParentLeft="true"
 	       android:layout_below="@+id/eventName"
-	       android:layout_marginTop="20dp"
-	       android:paddingLeft="13dp"
+	       android:layout_marginTop="15dp"
+	       android:paddingLeft="10dp"
 	       android:text="Location (optional)"
 	       android:textAppearance="?android:attr/textAppearanceMedium"
 	       android:textColor="#800080" />
@@ -75,7 +75,7 @@
 	       android:layout_alignParentLeft="true"
 	       android:layout_below="@+id/location"
 	       android:layout_marginTop="15dp"
-	       android:paddingLeft="13dp"
+	       android:paddingLeft="10dp"
 	       android:text="Description (optional)"
 	       android:textAppearance="?android:attr/textAppearanceMedium"
 	       android:textColor="#800080" />
@@ -86,7 +86,7 @@
 	       android:layout_height="150dip"
 	       android:layout_alignParentLeft="true"
 	       android:layout_below="@+id/TextView03"
-	       android:layout_marginTop="11dp"
+	       android:layout_marginTop="15dp"
 	       android:ems="10"
 	       android:hint="Description"
 	       android:textColor="#404040" />

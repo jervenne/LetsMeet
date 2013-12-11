@@ -21,6 +21,7 @@ public class SelectDateTimeActivity extends Activity {
 	DatePicker datep;
 	Integer startHour, startMinute, endHour, endMinute, month, day, year;
 	TextView startTime, endTime, date;
+	String email;
 	
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,9 @@ public class SelectDateTimeActivity extends Activity {
 			startTime = (TextView) findViewById(R.id.textStartTime);
 			endTime = (TextView) findViewById(R.id.textEndTime);
 			date = (TextView) findViewById(R.id.textDate);
+			
+			Intent i = getIntent();
+		    email = i.getStringExtra("emailAdd");
 			
 			addDateTimeButton.setOnClickListener(new View.OnClickListener() {
 				
@@ -76,6 +80,7 @@ public class SelectDateTimeActivity extends Activity {
 	    	   public void onClick(View v) {
 	    	    	Log.i("clicks","You clicked Send Invitation button");
 	    	        Intent i = new Intent(SelectDateTimeActivity.this, SendInvitationActivity.class);
+	    	        i.putExtra("emailAdd", email);
 	    	        startActivity(i);
 	    	    }
 		    });
