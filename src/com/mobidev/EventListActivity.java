@@ -83,7 +83,7 @@ public class EventListActivity extends Activity {
 	private void displayData(User user) {
 		dataBase = eventDAO.getWritableDatabase();
 		Cursor mCursor = dataBase.rawQuery("SELECT * FROM "
-				+ EventDAO.TABLE_EVENTS + " WHERE user_id='" + user.getUserID()  + "'", null);
+				+ EventDAO.TABLE_EVENTS + " e, "+ EventDAO.TABLE_REPLIES+" r WHERE e.id=r.event_id AND user_id='" + user.getUserID()  + "'", null);
 
 		eventID.clear();
 		eventName.clear();

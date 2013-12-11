@@ -43,8 +43,8 @@ public class PollActivity extends Activity {
 	   
        eventDAO = new EventDAO(this);
        event = eventDAO.getEvent(eventID);
-       
-       respondents = event.getRespondents();
+       Log.i("pollactivity", "entering getRespondents");
+       respondents = eventDAO.getRespondents(event);
        timeslots = event.getOptions();
        
        SharedPreferences savedValues = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);

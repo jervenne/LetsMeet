@@ -15,7 +15,7 @@ public class EventDAO extends SQLiteOpenHelper {
     
 	// All Static variables
 	// Database Version
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	// Database Name
 	private static final String DATABASE_NAME = "meetingManager.db";
@@ -24,7 +24,7 @@ public class EventDAO extends SQLiteOpenHelper {
 	private static final String TABLE_USERS = "users";
 	public static final String TABLE_EVENTS = "events";
 	private static final String TABLE_OPTIONS = "options";
-	private static final String TABLE_REPLIES = "replies";
+	public static final String TABLE_REPLIES = "replies";
 
 	//Common column names
 	public static final String KEY_ID = "id";
@@ -53,9 +53,9 @@ public class EventDAO extends SQLiteOpenHelper {
 			+ " TEXT" + ")";
 	//EVENT table create statement
 	private static final String CREATE_TABLE_EVENTS = "CREATE TABLE "
-			+ TABLE_EVENTS + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+			+ TABLE_EVENTS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ KEY_EVENTNAME + " TEXT," + KEY_LOCATION + " TEXT,"
-			+ KEY_DESCRIPTION + " TEXT," + KEY_USERID + " INTEGER," + "FOREIGN KEY(" + KEY_USERID + ") REFERENCES "+ TABLE_USERS + "("+ KEY_ID +"))";
+			+ KEY_DESCRIPTION + " TEXT)";
 	//OPTIONS table create statement
 	private static final String CREATE_TABLE_OPTIONS = "CREATE TABLE "
 			+ TABLE_OPTIONS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -64,7 +64,7 @@ public class EventDAO extends SQLiteOpenHelper {
 			+ "FOREIGN KEY(" + KEY_EVENTID + ") REFERENCES "+ TABLE_EVENTS + "("+ KEY_ID +"))";
 	//REPLIES table create statement
 	private static final String CREATE_TABLE_REPLIES = "CREATE TABLE " + TABLE_REPLIES + "(" 
-			+ KEY_USERID + " INTEGER," + KEY_OPTIONID + " INTEGER," + KEY_EVENTID + " INTEGER, " 
+			+ KEY_USERID + " INTEGER," + KEY_OPTIONID + " INTEGER NULL," + KEY_EVENTID + " INTEGER, " 
 			+ "FOREIGN KEY(" + KEY_USERID + ") REFERENCES "+ TABLE_USERS +"("+ KEY_ID + "),"
 			+ "FOREIGN KEY(" + KEY_OPTIONID + ") REFERENCES "+ TABLE_OPTIONS +"("+ KEY_ID + "),"
 			+ "FOREIGN KEY(" + KEY_EVENTID + ") REFERENCES "+ TABLE_EVENTS +"("+ KEY_ID + "))";	
@@ -194,9 +194,7 @@ public class EventDAO extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		if (event.getEventID() > 0) { //event id
-			values.put(KEY_ID, event.getEventID());
-		}
+		
 		values.put(KEY_EVENTNAME, event.getEventName()); // event name
 		if (event.getLocation() != null && !event.getLocation().isEmpty()){
 			values.put(KEY_LOCATION, event.getLocation()); // event location
@@ -204,27 +202,18 @@ public class EventDAO extends SQLiteOpenHelper {
 		if (event.getDescription() != null && !event.getDescription().isEmpty()){
 			values.put(KEY_DESCRIPTION, event.getDescription()); // event desc
 		}
-		values.put(KEY_USERID, user.getUserID()); // event owner
 		// Inserting Row
 		db.insert(TABLE_EVENTS, null, values);
 		db.close(); // Closing database connection
 	}
 	
-	//Add event to respondents
-	public void addEventRespondents(Event event, ArrayList<User> respondentList){
-		// for each user in the respondent list,
-		for(User user : respondentList){
-			//add event with their ID
-			addEvent(event, user);
-		}
-	}
 	
 	// Getting All Events of a user
 	public List<Event> getEventsOfAUser(User user) {
 		List<Event> eventList = new ArrayList<Event>();
 		// Select All Query
-		String selectQuery = "SELECT  * FROM " + TABLE_EVENTS + " WHERE user_id='" +user.getUserID()+ "'";
-
+		String selectQuery = "SELECT  * FROM " + TABLE_EVENTS + " e, " + TABLE_REPLIES +" r WHERE e.id=r.event_id AND user_id='" +user.getUserID()+ "'";
+		
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -360,24 +349,43 @@ public class EventDAO extends SQLiteOpenHelper {
 	}
 	
 	// ------------------------ "REPLIES" table methods ----------------//
-	//add replies from respondent
-	public void addReply(ArrayList<Reply> replyList) {
-		
+	//Add event to respondents
+	public void addEventRespondents(Event event, ArrayList<User> respondentList){
+		// for each user in the respondent list,
+		for(User user : respondentList){
+			//add event with their ID
+			addRespondent(event.getEventID(), user.getUserID());
+		}
+	}
+	
+	//join respondents with events without replies yet
+	public void addRespondent(int eventID, int userID) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		//for each reply in the replyList, add to db
-		for (Reply reply : replyList){
-			values.put(KEY_USERID, reply.getUser().getUserID());
-			values.put(KEY_OPTIONID, reply.getOption().getOptionID()); 
-			values.put(KEY_EVENTID, reply.getEvent().getEventID()); 
-		}
-		
+		values.put(KEY_EVENTID, eventID);
+		values.put(KEY_OPTIONID, 0);
+		values.put(KEY_USERID, userID);
+
 		// Inserting Row
 		db.insert(TABLE_REPLIES, null, values);
 		db.close(); // Closing database connection
-	} 
+		
+	}
 	
+	/**	
+	// Updating replies from respondent
+	public int addReply(ArrayList<Reply> replyList) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_EMAIL, user.getEmail());
+
+		// updating row
+		return db.update(TABLE_REPLIES, values, KEY_ID + " = ?",
+				new String[] { String.valueOf(user.getUserID()) });
+	}
+	**/
 	// Getting All replies of an Event
 		public List<Reply> getRepliesOfAEvent(Event event) {
 			List<Reply> replyList = new ArrayList<Reply>();
@@ -409,4 +417,28 @@ public class EventDAO extends SQLiteOpenHelper {
 			// return reply list
 			return replyList;
 		}
+
+	public ArrayList<User> getRespondents(Event event) {
+		ArrayList<User> list = new ArrayList<User>();
+		list=null;
+		// Select All Query
+		String selectQuery = "SELECT user_id, email FROM " + TABLE_USERS + " u, " + TABLE_REPLIES +" r WHERE u.id=r.user_id AND event_id='" +event.getEventID()+ "'";
+		
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				User user = new User();
+				user.setUserID(Integer.parseInt((cursor.getString(0))));
+				user.setEmail(cursor.getString(1));
+				// Adding events of a user to a list
+				list.add(user);
+			} while (cursor.moveToNext());
+		}
+
+		// return event list
+		return list;
+	}
 }

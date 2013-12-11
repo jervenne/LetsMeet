@@ -21,8 +21,9 @@ public class SendInvitationActivity extends Activity {
 	String email, emailAddresses;
 	boolean isValid;
 	int eventID;
-	ArrayList<User> respondents;
+	int userID;
 	
+	ArrayList<User> respondents;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
@@ -45,6 +46,9 @@ public class SendInvitationActivity extends Activity {
     		   emailAddresses = emailAddET.getText().toString().trim();
     		   respondents = new ArrayList<User>();
     		   
+    		   //add creator to his event
+    		   eventDAO.addRespondent(eventID, eventDAO.getUser(email).getUserID());
+    		   
     		   //when there is no input on email edit text
     		   if (emailAddresses.length() == 0){
     			   Log.i("emailAdd.length()", "emailAddresses.length() == 0");
@@ -54,6 +58,8 @@ public class SendInvitationActivity extends Activity {
     		   //when there is more than 1 email add (hence got presence of comma)
     		   } else if (emailAddresses.contains(",")) {
     			   Log.i("emailAdd.contains comma", "email got comma");
+    			   Log.i("emailAddresses", emailAddresses);
+    			   
     			   emailArray = emailAddresses.split(",");
     			   isValid = false;
 
@@ -72,17 +78,17 @@ public class SendInvitationActivity extends Activity {
         					   u = new User();
                 			   u.setEmail(emailStr);
                 			   eventDAO.addUser(u);
-        					   Log.i("user", "user is added to dao");
+                			   
+                			   //retrieve userid after added to db
+                			   userID = eventDAO.getUser(emailStr).getUserID();
+                			   u.setUserID(userID);
         				   }
-        				   
+        				   //add to user to respondents List
+        				   Log.i("respondents", u.getEmail());
+        				   Log.i("respondents.size", "entering respondents.size()");
         				   respondents.add(u);
-        				   for(User a:respondents){
-        					   Log.i("respondentsForLoopUserID", String.valueOf(a.userID));
-        				   }
-        				   Log.i("respondentsForLoopEventID", String.valueOf(eventID));
-        				   eventDAO.addEventRespondents(event, respondents);
-        				   Log.i("respondents.size()", String.valueOf(respondents.size()));
-        				   
+        				   Log.i("respondents.size", String.valueOf(respondents.size()));
+
     				   } else {
     					   isValid = false;
     					   Toast.makeText(SendInvitationActivity.this, "You did not enter a valid email address", Toast.LENGTH_LONG).show();
@@ -90,6 +96,8 @@ public class SendInvitationActivity extends Activity {
     					   //return;
     				   }
     			   }
+    			   //add respondents to database
+    			   eventDAO.addEventRespondents(event, respondents);
     			   
     			   if (isValid){
     				   Log.i("clicks","You clicked Send and Finish button");
