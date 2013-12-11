@@ -25,8 +25,8 @@ public class PollActivity extends Activity {
 	TextView eventNameTV;
 	EventDAO eventDAO;
 	Event event;
-	ArrayList<User> respondents;
-	ArrayList<Option> timeslots;
+	ArrayList<User> respondents = new ArrayList<User>();
+	ArrayList<Option> timeslots = new ArrayList<Option>();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,8 +43,9 @@ public class PollActivity extends Activity {
 	   
        eventDAO = new EventDAO(this);
        event = eventDAO.getEvent(eventID);
-       //respondents = event.getRespondents();
-       //timeslots = event.getOptions();
+       
+       respondents = event.getRespondents();
+       timeslots = event.getOptions();
        
        SharedPreferences savedValues = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
        eventName = savedValues.getString("eventName", "");

@@ -52,6 +52,7 @@ public class ScheduleEventActivity extends Activity{
     		   } else {
     			   
     			   eventID = eventDAO.getLatestEventID() + 1;
+    			   Log.i("latestEventID", String.valueOf(eventID));
     			   Event e = new Event(eventID, eventName, location, description);
     			   eventDAO.addEvent(e, eventDAO.getUser(email));
     			   

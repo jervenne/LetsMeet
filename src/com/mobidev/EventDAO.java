@@ -194,6 +194,9 @@ public class EventDAO extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
+		if (event.getEventID() > 0) { //event id
+			values.put(KEY_ID, event.getEventID());
+		}
 		values.put(KEY_EVENTNAME, event.getEventName()); // event name
 		if (event.getLocation() != null && !event.getLocation().isEmpty()){
 			values.put(KEY_LOCATION, event.getLocation()); // event location
@@ -202,8 +205,6 @@ public class EventDAO extends SQLiteOpenHelper {
 			values.put(KEY_DESCRIPTION, event.getDescription()); // event desc
 		}
 		values.put(KEY_USERID, user.getUserID()); // event owner
-		//System.out.println("EventName=" + event.getEventName());
-        //System.out.println("Email=" + user.getEmail());
 		// Inserting Row
 		db.insert(TABLE_EVENTS, null, values);
 		db.close(); // Closing database connection

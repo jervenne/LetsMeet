@@ -76,7 +76,12 @@ public class SendInvitationActivity extends Activity {
         				   }
         				   
         				   respondents.add(u);
-        				   event.setRespondents(respondents);
+        				   for(User a:respondents){
+        					   Log.i("respondentsForLoopUserID", String.valueOf(a.userID));
+        				   }
+        				   Log.i("respondentsForLoopEventID", String.valueOf(eventID));
+        				   eventDAO.addEventRespondents(event, respondents);
+        				   Log.i("respondents.size()", String.valueOf(respondents.size()));
         				   
     				   } else {
     					   isValid = false;
@@ -112,7 +117,8 @@ public class SendInvitationActivity extends Activity {
     				   }
     				   
     				   respondents.add(user);
-    				   event.setRespondents(respondents);
+    				   eventDAO.addEventRespondents(event, respondents);
+    				   Log.i("respondent.size()", String.valueOf(respondents.size()));
     				   
     				   Log.i("clicks","You clicked Send and Finish button");
     	    	       Intent i = new Intent(SendInvitationActivity.this, PollActivity.class);
