@@ -5,7 +5,7 @@
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="13" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:logo="@drawable/logo">
+    <application android:icon="@drawable/logo1" android:label="@string/app_name" android:logo="@drawable/logo1">
         <activity android:name="com.mobidev.GetStartedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

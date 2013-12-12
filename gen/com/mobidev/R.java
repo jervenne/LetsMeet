@@ -20,10 +20,11 @@ public final class R {
         public static final int image_bg=0x7f020006;
         public static final int list_selector=0x7f020007;
         public static final int logo=0x7f020008;
-        public static final int notebook=0x7f020009;
-        public static final int repeat_bg=0x7f02000a;
-        public static final int rihanna=0x7f02000b;
-        public static final int title=0x7f02000c;
+        public static final int logo1=0x7f020009;
+        public static final int notebook=0x7f02000a;
+        public static final int repeat_bg=0x7f02000b;
+        public static final int rihanna=0x7f02000c;
+        public static final int title=0x7f02000d;
     }
     public static final class id {
         public static final int List=0x7f060006;
