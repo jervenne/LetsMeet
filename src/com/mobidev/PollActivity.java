@@ -27,25 +27,27 @@ public class PollActivity extends Activity {
 	Event event;
 	ArrayList<User> respondents = new ArrayList<User>();
 	ArrayList<Option> timeslots = new ArrayList<Option>();
+	Button button;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.poll);
         
-       saveBtn = (Button) findViewById(R.id.saveButton);
+       //saveBtn = (Button) findViewById(R.id.saveButton);
        eventNameTV = (TextView) findViewById(R.id.eventName);
-       table = (TableLayout) findViewById(R.id.table);
+       //table = (TableLayout) findViewById(R.id.table);
+       button = (Button) findViewById(R.id.button1);
        
        Intent i = getIntent();
 	   email = i.getStringExtra("emailAdd");
 	   eventID = i.getIntExtra("eventID", 0);
 	   
-       eventDAO = new EventDAO(this);
-       event = eventDAO.getEvent(eventID);
-       Log.i("pollactivity", "entering getRespondents");
-       respondents = eventDAO.getRespondents(event);
-       timeslots = event.getOptions();
+       //eventDAO = new EventDAO(this);
+       //event = eventDAO.getEvent(eventID);
+       //Log.i("pollactivity", "entering getRespondents");
+       //respondents = eventDAO.getRespondents(event);
+       // timeslots = event.getOptions();
        
        SharedPreferences savedValues = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
        eventName = savedValues.getString("eventName", "");
@@ -74,11 +76,13 @@ public class PollActivity extends Activity {
        tr_head.addView(label_weight_kg); // add the column to the table row here
        */
        
-       saveBtn.setOnClickListener(new View.OnClickListener() {
+       button.setOnClickListener(new View.OnClickListener() {
     	   public void onClick(View v) {
     	    	Log.i("clicks","You clicked Save button");
-    	        //Intent i = new Intent(PollActivity.this, SelectDateTimeActivity.class);
-    	        //startActivity(i);
+    	        Intent i = new Intent(PollActivity.this, EventListActivity.class);
+    	        i.putExtra("emailAdd", email);
+	    	    i.putExtra("eventID", eventID);
+    	        startActivity(i);
     	    }
        });
     }		
